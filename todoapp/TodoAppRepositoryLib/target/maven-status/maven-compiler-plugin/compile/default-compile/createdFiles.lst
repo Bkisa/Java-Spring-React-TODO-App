@@ -1,0 +1,5 @@
+org\bugrahan\entity\Todo.class
+org\bugrahan\entity\User.class
+org\bugrahan\dal\TodoAppHelper.class
+org\bugrahan\repository\ITodoRepository.class
+org\bugrahan\repository\TodoRepository.class
