@@ -1,69 +1,48 @@
-import React, { useState } from 'react';
-import TodoInput from './components/TodoInput';
-import TodoList from './components/TodoList';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+
+import Header from './components/header/Header';
+import About from './components/page/About';
+import Todos from './components/todo/ViewTodos'
+import AddTodo from './components/todo/AddTodo';
+import UpdateTodo from './components/todo/UpdateTodo';
+import Signin from './components/auth/Signin';
+import Signup from './components/auth/Signup';
+import Signout from './components/auth/Signout';
+import Landing from './components/page/Landing';
+import NotFound from './components/page/NotFound';
+
+import './bootstrap.min.css';
 import './App.css';
 
-function App() {
-  const [todos, setTodos] = useState([]);
-  const [filter, setFilter] = useState('all');
+function App () {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const addTodo = (task) => {
-    setTodos([...todos, { id: Date.now(), task, completed: false }]);
-  };
-
-  const toggleComplete = (id) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
-      )
-    );
-  };
-
-  const deleteTodo = (id) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
-  };
-
-  const editTodo = (id, newTask) => {
-    setTodos(
-      todos.map((todo) => (todo.id === id ? { ...todo, task: newTask } : todo))
-    );
-  };
-
-  const deleteDoneTasks = () => {
-    setTodos(todos.filter((todo) => !todo.completed));
-  };
-
-  const deleteAllTasks = () => {
-    setTodos([]);
-  };
-
-  const filteredTodos = todos.filter((todo) => {
-    if (filter === 'all') return true;
-    if (filter === 'done') return todo.completed;
-    if (filter === 'todo') return !todo.completed;
-    return true;
-  });
+  useEffect(() => {
+    if(sessionStorage.getItem('token') !== null){
+      setIsAuthenticated(true);
+    }
+  }, [])
 
   return (
+    <Router>
     <div className="App">
-      <TodoInput addTodo={addTodo} />
-      <div className="filter-buttons">
-        <button onClick={() => setFilter('all')}>All</button>
-        <button onClick={() => setFilter('done')}>Done</button>
-        <button onClick={() => setFilter('todo')}>Todo</button>
-      </div>
-      <div className="separator"></div>
-      <TodoList
-        todos={filteredTodos}
-        toggleComplete={toggleComplete}
-        deleteTodo={deleteTodo}
-        editTodo={editTodo}
-      />
-      <div className="clear-buttons">
-        <button onClick={deleteDoneTasks}>Delete done tasks</button>
-        <button onClick={deleteAllTasks}>Delete all tasks</button>
+      <Header isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />
+      <div>
+        <Switch>
+          <Route exact path="/" render={(props) => (<Landing {...props} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />)} />
+          <Route exact path="/signin" render={(props) => (<Signin {...props} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />)} />
+          <Route exact path="/signup" render={(props) => (<Signup {...props} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />)} />
+          <Route exact path="/signout" render={(props) => (<Signout {...props} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />)} />
+          <Route exact path="/todo" render={(props) => (<Todos {...props} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />)} />
+          <Route exact path="/add" render={(props) => (<AddTodo {...props} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />)} />
+          <Route exact path="/update/:id" render={(props) => (<UpdateTodo {...props} isAuthenticated={isAuthenticated} setIsAuthenticated={setIsAuthenticated} />)} />
+          <Route exact path="/about" component={About} />
+          <Route component={NotFound} />
+        </Switch>
       </div>
     </div>
+    </Router>
   );
 }
 

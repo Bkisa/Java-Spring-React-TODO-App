@@ -1,5 +1,1 @@
-org\bugrahan\todoapp\repository\TodoRepositoryFindByNameTest.class
-org\bugrahan\todoapp\repository\TodoRepositoryFindByIdTest.class
-org\bugrahan\todoapp\repository\TodoRepositoryFindAllTest.class
-org\bugrahan\todoapp\constant\TestConstant.class
-org\bugrahan\todoapp\repository\TodoRepositorySaveTest.class
+org\bugrahan\SampleTest.class
