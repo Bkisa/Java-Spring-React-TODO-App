@@ -24,7 +24,7 @@ public class TodoAppUpdateCityTest {
     {
         var name = "TodoApp test";
         var id = 6L;
-        var todo = new Todo(id, name);
+        var todo = new Todo(id, name, false);
 
         var oldTodo = "Palhais";
 

@@ -14,4 +14,7 @@ public class Todo {
 
     @Accessors(prefix = "m_")
     private String m_name;
+
+    @Accessors(prefix = "m_")
+    private boolean m_isCompleted;
 }

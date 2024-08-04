@@ -126,13 +126,53 @@ public class TodoController {
         return returnValue;
     }
 
+    @GetMapping("find/completed")
+    public ResponseEntity<Object> findAllCompleted()
+    {
+        ResponseEntity<Object> returnValue;
+
+        try {
+            log.info("TodoController.findAllCompleted");
+
+            returnValue = ResponseEntity.ok(m_todoAppDataService.findAllCompleted());
+        }
+        catch (DataServiceException ex) {
+            var todoError = new BaseTodoError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            log.error("TodoController.findAllCompleted -> Exception: {}, Response {}", ex.getMessage(), todoError);
+
+            returnValue = ResponseEntity.internalServerError().body(todoError);
+        }
+        return returnValue;
+    }
+
+    @GetMapping("find/notcompleted")
+    public ResponseEntity<Object> findAllNotCompleted()
+    {
+        ResponseEntity<Object> returnValue;
+
+        try {
+            log.info("TodoController.findAllNotCompleted");
+
+            returnValue = ResponseEntity.ok(m_todoAppDataService.findAllNotCompleted());
+        }
+        catch (DataServiceException ex) {
+            var todoError = new BaseTodoError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            log.error("TodoController.findAllNotCompleted -> Exception: {}, Response {}", ex.getMessage(), todoError);
+
+            returnValue = ResponseEntity.internalServerError().body(todoError);
+        }
+        return returnValue;
+    }
+
     @PutMapping("update")
     public ResponseEntity<Object> update(@RequestBody TodoUpdateDTO todoUpdateDTO)
     {
         ResponseEntity<Object> returnValue;
 
         try {
-            log.error("TodoController.update -> Todo: {}", todoUpdateDTO.toString());
+            log.info("TodoController.update -> Todo: {}", todoUpdateDTO.toString());
 
             returnValue = ResponseEntity.ok(m_todoAppDataService.updateTodo(todoUpdateDTO));
         }
@@ -140,6 +180,46 @@ public class TodoController {
             var todoError = new BaseTodoError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
 
             log.error("TodoController.update -> Exception: {}, Response {}", ex.getMessage(), todoError);
+
+            returnValue = ResponseEntity.internalServerError().body(todoError);
+        }
+        return returnValue;
+    }
+
+    @DeleteMapping("deleteAll")
+    public ResponseEntity<Object> deleteAll()
+    {
+        ResponseEntity<Object> returnValue;
+
+        try {
+            log.info("TodoController.deleteAll");
+            m_todoAppDataService.deleteAll();
+            returnValue = ResponseEntity.ok("Delete All Todos successfully");
+        }
+        catch (DataServiceException ex) {
+            var todoError = new BaseTodoError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            log.error("TodoController.deleteAll -> Exception: {}, Response {}",ex.getMessage(), todoError);
+
+            returnValue = ResponseEntity.internalServerError().body(todoError);
+        }
+        return returnValue;
+    }
+
+    @DeleteMapping("deleteCompletedAll")
+    public ResponseEntity<Object> deleteCompletedAll()
+    {
+        ResponseEntity<Object> returnValue;
+
+        try {
+            log.info("TodoController.deleteCompletedAll");
+            m_todoAppDataService.deleteCompletedAll();
+            returnValue = ResponseEntity.ok("Delete All Todos successfully");
+        }
+        catch (DataServiceException ex) {
+            var todoError = new BaseTodoError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            log.error("TodoController.deleteCompletedAll -> Exception: {}, Response {}", ex.getMessage(), todoError);
 
             returnValue = ResponseEntity.internalServerError().body(todoError);
         }

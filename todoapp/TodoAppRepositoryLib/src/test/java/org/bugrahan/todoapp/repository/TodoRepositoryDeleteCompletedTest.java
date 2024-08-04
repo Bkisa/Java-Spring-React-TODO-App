@@ -1,28 +1,31 @@
 package org.bugrahan.todoapp.repository;
 
 import org.bugrahan.todoapp.constant.TestConstant;
-import org.bugrahan.todoapp.entity.Todo;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
+
+import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @TestPropertySource(locations = TestConstant.UNITTEST_PROPS_FILE)
-public class TodoRepositorySaveTest {
+public class TodoRepositoryDeleteCompletedTest {
     @Autowired
     private ITodoRepository m_todoRepository;
 
     @Test
-    public void givenValue_whenCity_thenSetIdentity()
+    public void test()
     {
-        var todo = new Todo(51, "Test Data", false);
-        var expectedId = 51L;
+        var expectedCount = 0L;
 
-        m_todoRepository.save(todo);
+        m_todoRepository.deleteCompletedTodos();
 
-        assertEquals(expectedId, todo.getId());
+        var count = StreamSupport.stream(m_todoRepository.findAllCompleted().spliterator(), false).count();
+
+        assertEquals(expectedCount, count);
     }
 }

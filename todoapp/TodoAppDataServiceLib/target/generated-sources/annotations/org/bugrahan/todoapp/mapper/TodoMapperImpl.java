@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-04T14:57:22+0300",
+    date = "2024-08-04T21:55:36+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -21,13 +21,17 @@ public class TodoMapperImpl implements ITodoMapper {
             return null;
         }
 
+        boolean isCompleted = false;
         long id = 0L;
         String name = null;
 
+        isCompleted = saveDTO.isCompleted();
         id = saveDTO.getId();
         name = saveDTO.getName();
 
-        Todo todo = new Todo( id, name );
+        Todo todo = new Todo( id, name, isCompleted );
+
+        todo.setCompleted( saveDTO.isCompleted() );
 
         return todo;
     }
@@ -38,12 +42,40 @@ public class TodoMapperImpl implements ITodoMapper {
             return null;
         }
 
-        TodoSaveDTO todoSaveDTO = new TodoSaveDTO();
+        boolean isCompleted = false;
+        long id = 0L;
+        String name = null;
 
-        todoSaveDTO.setId( todo.getId() );
-        todoSaveDTO.setName( todo.getName() );
+        isCompleted = todo.isCompleted();
+        id = todo.getId();
+        name = todo.getName();
+
+        TodoSaveDTO todoSaveDTO = new TodoSaveDTO( id, name, isCompleted );
+
+        todoSaveDTO.setCompleted( todo.isCompleted() );
 
         return todoSaveDTO;
+    }
+
+    @Override
+    public Todo toTodo(TodoDTO todoDTO) {
+        if ( todoDTO == null ) {
+            return null;
+        }
+
+        boolean isCompleted = false;
+        long id = 0L;
+        String name = null;
+
+        isCompleted = todoDTO.isCompleted();
+        id = todoDTO.getId();
+        name = todoDTO.getName();
+
+        Todo todo = new Todo( id, name, isCompleted );
+
+        todo.setCompleted( todoDTO.isCompleted() );
+
+        return todo;
     }
 
     @Override
@@ -52,13 +84,17 @@ public class TodoMapperImpl implements ITodoMapper {
             return null;
         }
 
+        boolean isCompleted = false;
         long id = 0L;
         String name = null;
 
+        isCompleted = todo.isCompleted();
         id = todo.getId();
         name = todo.getName();
 
-        TodoDTO todoDTO = new TodoDTO( id, name );
+        TodoDTO todoDTO = new TodoDTO( id, name, isCompleted );
+
+        todoDTO.setCompleted( todo.isCompleted() );
 
         return todoDTO;
     }
@@ -69,13 +105,17 @@ public class TodoMapperImpl implements ITodoMapper {
             return null;
         }
 
+        boolean isCompleted = false;
         long id = 0L;
         String name = null;
 
+        isCompleted = updateDTO.isCompleted();
         id = updateDTO.getId();
         name = updateDTO.getName();
 
-        Todo todo = new Todo( id, name );
+        Todo todo = new Todo( id, name, isCompleted );
+
+        todo.setCompleted( updateDTO.isCompleted() );
 
         return todo;
     }
@@ -86,10 +126,17 @@ public class TodoMapperImpl implements ITodoMapper {
             return null;
         }
 
-        TodoUpdateDTO todoUpdateDTO = new TodoUpdateDTO();
+        boolean isCompleted = false;
+        long id = 0L;
+        String name = null;
 
-        todoUpdateDTO.setId( todo.getId() );
-        todoUpdateDTO.setName( todo.getName() );
+        isCompleted = todo.isCompleted();
+        id = todo.getId();
+        name = todo.getName();
+
+        TodoUpdateDTO todoUpdateDTO = new TodoUpdateDTO( id, name, isCompleted );
+
+        todoUpdateDTO.setCompleted( todo.isCompleted() );
 
         return todoUpdateDTO;
     }

@@ -1,13 +1,3 @@
-/*-------------------------------------------------------------
-	FILE		: TodoAppDataService.java
-	AUTHOR		: JavaApp1-Nov-2023 Group
-	Last UPDATE	: 29th Oct 2023
-
-	TodoAppDataService Class
-
-	Copyleft (c) 1993 C and System Programmers Association
-	All Right Free
--------------------------------------------------------------*/
 package org.bugrahan.todoapp;
 
 import lombok.extern.slf4j.Slf4j;
@@ -57,7 +47,9 @@ public class TodoAppDataService {
             log.info("TodoAppDataService.findAllTodos:");
             var todos = m_todoAppHelper.findAllTodos();
 
-            return StreamSupport.stream(todos.spliterator(), false).map(m_mapperInject.getTodoMapper()::toTodoDTO).toList();
+            return StreamSupport.stream(todos.spliterator(), false)
+                    .map(m_mapperInject.getTodoMapper()::toTodoDTO)
+                    .toList();
         }
         catch (RepositoryException ex) {
             log.error("TodoAppDataService.findAllTodos: Exception -> RepositoryException, Message -> {}", ex.getMessage());
@@ -72,25 +64,25 @@ public class TodoAppDataService {
     public Optional<TodoDTO> findTodoById(long id)
     {
         try {
-            log.info("TodoAppDataService.findAllTodos: id -> {}", id);
+            log.info("TodoAppDataService.findTodoById: id -> {}", id);
             var todoOpt = m_todoAppHelper.findTodoById(id);
 
             return todoOpt.map(m_mapperInject.getTodoMapper()::toTodoDTO);
         }
         catch (RepositoryException ex) {
-            log.error("TodoAppDataService.findAllTodos: id -> {}, Exception -> RepositoryException, Message -> {}", id, ex.getMessage());
-            throw new DataServiceException("TodoAppDataService.findTodoByName: RepositoryException", ex);
+            log.error("TodoAppDataService.findTodoById: id -> {}, Exception -> RepositoryException, Message -> {}", id, ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findTodoById: RepositoryException", ex);
         }
         catch (Throwable ex) {
-            log.error("TodoAppDataService.findAllTodos: id -> {}, Exception -> {}, Message -> {}", id, ex.getClass().getName(), ex.getMessage());
-            throw new DataServiceException("TodoAppDataService.findAllTodos: Exception", ex);
+            log.error("TodoAppDataService.findTodoById: id -> {}, Exception -> {}, Message -> {}", id, ex.getClass().getName(), ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findTodoById: Exception", ex);
         }
     }
 
     public Optional<TodoDTO> findTodoByName(String name)
     {
         try {
-            log.info("TodoAppDataService.findTodoByName: id -> {}", name);
+            log.info("TodoAppDataService.findTodoByName: name -> {}", name);
             var todoOpt = m_todoAppHelper.findTodoByName(name);
 
             return todoOpt.map(m_mapperInject.getTodoMapper()::toTodoDTO);
@@ -140,6 +132,80 @@ public class TodoAppDataService {
         catch (Throwable ex) {
             log.error("TodoAppDataService.updateTodo: name -> {}, Exception -> {}, Message -> {}", todoUpdateDTO.getName(), ex.getClass().getName(), ex.getMessage());
             throw new DataServiceException("TodoAppDataService.updateTodo: Exception", ex);
+        }
+    }
+
+    public Iterable<TodoDTO> findAllNotCompleted()
+    {
+        try {
+            log.info("TodoAppDataService.findAllNotCompleted:");
+            var todos = m_todoAppHelper.findAllNotCompleted();
+
+            return StreamSupport.stream(todos.spliterator(), false)
+                    .map(m_mapperInject.getTodoMapper()::toTodoDTO)
+                    .toList();
+        }
+        catch (RepositoryException ex) {
+            log.error("TodoAppDataService.findAllNotCompleted: Exception -> RepositoryException, Message -> {}", ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findAllNotCompleted: RepositoryException", ex);
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppDataService.findAllNotCompleted: Exception -> {}, Message -> {}", ex.getClass().getName(), ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findAllNotCompleted: Exception", ex);
+        }
+    }
+
+    public Iterable<TodoDTO> findAllCompleted()
+    {
+        try {
+            log.info("TodoAppDataService.findAllCompleted:");
+            var todos = m_todoAppHelper.findAllCompleted();
+
+            return StreamSupport.stream(todos.spliterator(), false)
+                    .map(m_mapperInject.getTodoMapper()::toTodoDTO)
+                    .toList();
+        }
+        catch (RepositoryException ex) {
+            log.error("TodoAppDataService.findAllCompleted: Exception -> RepositoryException, Message -> {}", ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findAllCompleted: RepositoryException", ex);
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppDataService.findAllCompleted: Exception -> {}, Message -> {}", ex.getClass().getName(), ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findAllCompleted: Exception", ex);
+        }
+    }
+
+    public void deleteCompletedAll()
+    {
+        try {
+            log.info("TodoAppDataService.deleteCompletedAll:");
+
+            m_todoAppHelper.deleteCompletedAll();
+        }
+        catch (RepositoryException ex) {
+            log.error("TodoAppDataService.deleteCompletedAll: Exception -> RepositoryException, Message -> {}", ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.deleteCompletedAll: RepositoryException", ex);
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppDataService.deleteCompletedAll: Exception -> {}, Message -> {}", ex.getClass().getName(), ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.deleteCompletedAll: Exception", ex);
+        }
+    }
+
+
+    public void deleteAll()
+    {
+        try {
+            log.info("TodoAppDataService.deleteAll:");
+            m_todoAppHelper.deleteAll();
+        }
+        catch (RepositoryException ex) {
+            log.error("TodoAppDataService.deleteAll: Exception -> RepositoryException, Message -> {}", ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.deleteAll: RepositoryException", ex);
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppDataService.deleteAll: Exception -> {}, Message -> {}", ex.getClass().getName(), ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.deleteAll: Exception", ex);
         }
     }
 }

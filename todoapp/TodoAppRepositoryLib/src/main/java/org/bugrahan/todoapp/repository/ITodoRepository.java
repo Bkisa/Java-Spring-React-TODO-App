@@ -7,4 +7,12 @@ public interface ITodoRepository extends ICrudRepository<Todo, Long> {
     Iterable<Todo> findByName(String name);
 
     Todo updateTodo(Todo todo);
+
+    Iterable<Todo> findAllCompleted();
+
+    Iterable<Todo> findAllNotCompleted();
+
+    public void deleteCompletedTodos();
+
+    public void deleteAllTodos();
 }

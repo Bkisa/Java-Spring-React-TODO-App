@@ -1,0 +1,7 @@
+org\bugrahan\todoapp\mapper\ITodoMapper.class
+org\bugrahan\todoapp\mapper\MapperInject.class
+org\bugrahan\todoapp\dto\TodoDTO.class
+org\bugrahan\todoapp\dto\TodoSaveDTO.class
+org\bugrahan\todoapp\mapper\TodoMapperImpl.class
+org\bugrahan\todoapp\dto\TodoUpdateDTO.class
+org\bugrahan\todoapp\TodoAppDataService.class

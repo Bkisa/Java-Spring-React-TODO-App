@@ -1,9 +1,9 @@
 package org.bugrahan.todoapp.dal;
 
 import lombok.extern.slf4j.Slf4j;
+import org.bugrahan.todoapp.entity.Todo;
 import org.bugrahan.todoapp.repository.ITodoRepository;
 import org.csystem.data.exception.repository.RepositoryException;
-import org.bugrahan.todoapp.entity.Todo;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
@@ -90,6 +90,54 @@ public class TodoAppHelper {
         catch (Throwable ex) {
             log.error("TodoAppHelper.updateTodo: Exception -> {}, Message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
             throw new RepositoryException("TodoAppHelper.updateTodo:", ex);
+        }
+    }
+
+    public Iterable<Todo> findAllCompleted()
+    {
+        try {
+            log.info("TodoAppHelper.findAllCompleted");
+            return m_todoRepository.findAllCompleted();
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppHelper.findAllCompleted: Exception -> {}, Message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
+            throw new RepositoryException("TodoAppHelper.findAllCompleted:", ex);
+        }
+    }
+
+    public Iterable<Todo> findAllNotCompleted()
+    {
+        try {
+            log.info("TodoAppHelper.findAllNotCompleted");
+            return m_todoRepository.findAllNotCompleted();
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppHelper.findAllNotCompleted: Exception -> {}, Message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
+            throw new RepositoryException("TodoAppHelper.findAllNotCompleted:", ex);
+        }
+    }
+
+    public void deleteCompletedAll()
+    {
+        try {
+            log.info("TodoAppHelper.deleteCompletedAll");
+            m_todoRepository.deleteCompletedTodos();
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppHelper.deleteCompletedAll: Exception -> {}, Message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
+            throw new RepositoryException("TodoAppHelper.deleteCompletedAll:", ex);
+        }
+    }
+
+    public void deleteAll()
+    {
+        try {
+            log.info("TodoAppHelper.deleteAll");
+            m_todoRepository.deleteAllTodos();
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppHelper.deleteAll: Exception -> {}, Message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
+            throw new RepositoryException("TodoAppHelper.deleteAll:", ex);
         }
     }
 }

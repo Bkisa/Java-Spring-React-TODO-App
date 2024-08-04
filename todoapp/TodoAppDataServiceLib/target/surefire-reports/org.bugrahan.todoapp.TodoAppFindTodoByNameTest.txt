@@ -1,4 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: org.bugrahan.todoapp.TodoAppFindTodoByNameTest
 -------------------------------------------------------------------------------
-Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.578 s -- in org.bugrahan.todoapp.TodoAppFindTodoByNameTest
+Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.400 s -- in org.bugrahan.todoapp.TodoAppFindTodoByNameTest

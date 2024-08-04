@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoInput from './components/TodoInput';
 import TodoList from './components/TodoList';
 import './App.css';
@@ -6,15 +6,75 @@ import './App.css';
 function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const todosPerPage = 8; // Her sayfada 8 todo göstermek için
+
+  useEffect(() => {
+    fetchAllTodos();
+  }, []);
+
+  const sortTodosById = (todos) => {
+    return todos.sort((a, b) => a.id - b.id);
+  };
 
   const fetchAllTodos = () => {
     fetch('http://localhost:6767/api/techcareer/todo/find/all')
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
       .then(data => {
-        console.log('Fetched todos:', data); // Verileri console'a yazdırma
-        setTodos(data);
+        console.log('All Todos:', data);
+        if (Array.isArray(data)) {
+          setTodos(sortTodosById(data));
+          setCurrentPage(1); // Sayfa numarasını 1 olarak ayarla
+        } else {
+          console.error('Received data is not an array:', data);
+        }
       })
       .catch(error => console.error('Error fetching data:', error));
+  };
+
+  const fetchCompletedTodos = () => {
+    fetch('http://localhost:6767/api/techcareer/todo/find/completed')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Completed Todos:', data);
+        if (Array.isArray(data)) {
+          setTodos(sortTodosById(data));
+          setCurrentPage(1); // Sayfa numarasını 1 olarak ayarla
+        } else {
+          console.error('Received data is not an array:', data);
+        }
+      })
+      .catch(error => console.error('Error fetching completed todos:', error));
+  };
+
+  const fetchNotCompletedTodos = () => {
+    fetch('http://localhost:6767/api/techcareer/todo/find/notcompleted')
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Not Completed Todos:', data);
+        if (Array.isArray(data)) {
+          setTodos(sortTodosById(data));
+          setCurrentPage(1); // Sayfa numarasını 1 olarak ayarla
+        } else {
+          console.error('Received data is not an array:', data);
+        }
+      })
+      .catch(error => console.error('Error fetching not completed todos:', error));
   };
 
   const addTodo = (task) => {
@@ -25,7 +85,7 @@ function App() {
       body: JSON.stringify(newTodo)
     })
     .then(response => response.json())
-    .then(data => setTodos([...todos, data]))
+    .then(data => setTodos(sortTodosById([...todos, data])))
     .catch(error => console.error('Error adding todo:', error));
   };
 
@@ -33,8 +93,8 @@ function App() {
     const updatedTodos = todos.map(todo =>
       todo.id === id ? { ...todo, completed: !todo.completed } : todo
     );
-    setTodos(updatedTodos);
-    
+    setTodos(sortTodosById(updatedTodos));
+
     const updatedTodo = updatedTodos.find(todo => todo.id === id);
     fetch(`http://localhost:6767/api/techcareer/todo/update`, {
       method: 'PUT',
@@ -45,14 +105,12 @@ function App() {
   };
 
   const deleteTodo = (id) => {
-    console.log(`Deleting todo with id: ${id}`); // Silinen ID'yi yazdırma
     fetch(`http://localhost:6767/api/techcareer/todo/delete/${id}`, {
       method: 'DELETE'
     })
     .then(response => {
       if (response.ok) {
-        setTodos(todos.filter(todo => todo.id !== id));
-        console.log('Todo deleted successfully');
+        setTodos(sortTodosById(todos.filter(todo => todo.id !== id)));
       } else {
         console.error('Failed to delete todo');
       }
@@ -64,7 +122,7 @@ function App() {
     const updatedTodos = todos.map(todo =>
       todo.id === id ? { ...todo, name: newTask } : todo
     );
-    setTodos(updatedTodos);
+    setTodos(sortTodosById(updatedTodos));
 
     const updatedTodo = updatedTodos.find(todo => todo.id === id);
     fetch(`http://localhost:6767/api/techcareer/todo/update`, {
@@ -76,25 +134,31 @@ function App() {
   };
 
   const deleteDoneTasks = () => {
-    const doneTasks = todos.filter(todo => todo.completed);
-
-    doneTasks.forEach(task => {
-      fetch(`http://localhost:6767/api/techcareer/todo/delete/${task.id}`, {
-        method: 'DELETE'
-      })
-      .catch(error => console.error('Error deleting done todo:', error));
-    });
-
-    setTodos(todos.filter(todo => !todo.completed));
+    fetch('http://localhost:6767/api/techcareer/todo/deleteCompletedAll', {
+      method: 'DELETE'
+    })
+    .then(response => {
+      if (response.ok) {
+        setTodos(todos.filter(todo => !todo.completed));
+      } else {
+        console.error('Failed to delete completed todos');
+      }
+    })
+    .catch(error => console.error('Error deleting completed todos:', error));
   };
 
   const deleteAllTasks = () => {
-    fetch('http://localhost:6767/api/techcareer/todo', {
+    fetch('http://localhost:6767/api/techcareer/todo/deleteAll', {
       method: 'DELETE'
     })
+    .then(response => {
+      if (response.ok) {
+        setTodos([]);
+      } else {
+        console.error('Failed to delete all todos');
+      }
+    })
     .catch(error => console.error('Error deleting all todos:', error));
-
-    setTodos([]);
   };
 
   const filteredTodos = todos.filter(todo => {
@@ -104,17 +168,33 @@ function App() {
     return true;
   });
 
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodos = filteredTodos.slice(indexOfFirstTodo, indexOfLastTodo);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const nextPage = () => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(filteredTodos.length / todosPerPage)));
+  const prevPage = () => setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
+
   return (
     <div className="App">
       <TodoInput addTodo={addTodo} />
       <div className="filter-buttons">
-        <button onClick={() => { fetchAllTodos(); setFilter('all'); }}>All</button>
-        <button onClick={() => setFilter('done')}>Done</button>
-        <button onClick={() => setFilter('todo')}>Todo</button>
+        <button onClick={fetchAllTodos}>All</button>
+        <button onClick={fetchCompletedTodos}>Done</button>
+        <button onClick={fetchNotCompletedTodos}>Todo</button>
+      </div>
+      <div className="pagination-container">
+        <div className="pagination">
+          <button onClick={prevPage}>{'<'}</button>
+          <span>{`${currentPage}/${Math.ceil(filteredTodos.length / todosPerPage)}`}</span>
+          <button onClick={nextPage}>{'>'}</button>
+        </div>
       </div>
       <div className="separator"></div>
       <TodoList
-        todos={filteredTodos}
+        todos={currentTodos}
         toggleComplete={toggleComplete}
         deleteTodo={deleteTodo}
         editTodo={editTodo}
