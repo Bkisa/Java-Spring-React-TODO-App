@@ -62,42 +62,19 @@ form button:hover {
   background-color: #218838;
 }
 
-/* Yeni eklenen kodlar */
-
-.filter-buttons {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
+.clear-buttons button {
+  background-color: #dc3545;
 }
 
-.filter-buttons button {
-  padding: 10px 20px;
-  margin: 0 10px;
-  font-size: 16px;
-  border: none;
-  background-color: #28a745; /* Add new task butonunun rengini kullanıyoruz */
-  color: white;
-  border-radius: 5px;
-  cursor: pointer;
+.clear-buttons button:hover {
+  background-color: #c82333;
 }
-
-.filter-buttons button:hover {
-  background-color: #218838;
-}
-
-.separator {
-  width: 50%; /* New Todo input dikdörtgenin genişliği kadar */
-  border: 2px solid black;
-  margin: 20px auto;
-}
-
-/* -------------------------------- */
 
 .todo-list {
   list-style: none;
   padding: 0;
   max-width: 600px;
-  margin: 30px auto 0 auto; /* todo list kısmını aşağı almak için margin-top ayarlandı */
+  margin: 30px auto 0 auto;
 }
 
 .todo-item {
@@ -114,6 +91,7 @@ form button:hover {
 .todo-item span {
   flex-grow: 1;
   text-align: left;
+  margin-left: 10px;
 }
 
 .todo-item.completed span {
@@ -123,6 +101,8 @@ form button:hover {
 
 .todo-item input[type="checkbox"] {
   margin-right: 10px;
+  width: 20px;
+  height: 20px;
 }
 
 .todo-item button {
@@ -140,11 +120,12 @@ form button:hover {
 }
 
 .todo-item button.delete {
-  background-color: #dc3545;
+  background-color: white;
+  border: 1px solid #dc3545;
 }
 
 .todo-item button.delete:hover {
-  background-color: #c82333;
+  background-color: #f8d7da;
 }
 
 .clear-buttons {
@@ -165,7 +146,7 @@ form button:hover {
 }
 
 .icon-button.delete img {
-  filter: invert(31%) sepia(97%) saturate(7403%) hue-rotate(357deg) brightness(92%) contrast(110%);
+  filter: none;
 }
 
 .icon-button.edit img {
@@ -176,25 +157,53 @@ form button:hover {
   filter: invert(38%) sepia(79%) saturate(1783%) hue-rotate(90deg) brightness(91%) contrast(96%);
 }
 
-/* Yeni eklenen kodlar */
-
-.clear-buttons {
-  margin-top: 20px;
+.popup {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
+  align-items: center;
   justify-content: center;
 }
 
-.clear-buttons button {
+.popup-inner {
+  position: relative;
+  padding: 20px;
+  width: 300px;
+  background: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.popup-inner input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* Eklendi */
+}
+
+.popup-inner button {
   padding: 10px 20px;
-  margin: 0 10px;
+  margin: 5px;
   font-size: 16px;
   border: none;
-  background-color: #dc3545;
-  color: white;
   border-radius: 5px;
   cursor: pointer;
 }
 
-.clear-buttons button:hover {
-  background-color: #c82333;
+.popup-inner button:nth-child(3) {
+  background-color: #28a745;
+  color: white;
+}
+
+.popup-inner button:nth-child(4) {
+  background-color: #dc3545;
+  color: white;
 }
