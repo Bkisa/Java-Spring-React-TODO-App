@@ -10,6 +10,7 @@ import org.csystem.data.exception.repository.RepositoryException;
 import org.csystem.data.exception.service.DataServiceException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
@@ -192,7 +193,6 @@ public class TodoAppDataService {
         }
     }
 
-
     public void deleteAll()
     {
         try {
@@ -206,6 +206,26 @@ public class TodoAppDataService {
         catch (Throwable ex) {
             log.error("TodoAppDataService.deleteAll: Exception -> {}, Message -> {}", ex.getClass().getName(), ex.getMessage());
             throw new DataServiceException("TodoAppDataService.deleteAll: Exception", ex);
+        }
+    }
+
+    public Iterable<TodoDTO> findTodosByEndDate(LocalDate endDate)
+    {
+        try {
+            log.info("TodoAppDataService.findTodosByEndDate: endDate -> {}", endDate);
+            var todos = m_todoAppHelper.findTodosByEndDate(endDate);
+
+            return StreamSupport.stream(todos.spliterator(), false)
+                    .map(m_mapperInject.getTodoMapper()::toTodoDTO)
+                    .toList();
+        }
+        catch (RepositoryException ex) {
+            log.error("TodoAppDataService.findTodosByEndDate: endDate -> {}, Exception -> RepositoryException, Message -> {}", endDate, ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findTodosByEndDate: RepositoryException", ex);
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppDataService.findTodosByEndDate: endDate -> {}, Exception -> {}, Message -> {}", endDate, ex.getClass().getName(), ex.getMessage());
+            throw new DataServiceException("TodoAppDataService.findTodosByEndDate: Exception", ex);
         }
     }
 }

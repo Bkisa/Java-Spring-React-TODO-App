@@ -1,6 +1,8 @@
 C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\constant\TestConstant.java
 C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\repository\TodoRepositoryDeleteAllTest.java
 C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\repository\TodoRepositoryDeleteCompletedTest.java
+C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\repository\TodoRepositoryFindAllCompletedTest.java
+C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\repository\TodoRepositoryFindAllNotCompletedTest.java
 C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\repository\TodoRepositoryFindAllTest.java
 C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\repository\TodoRepositoryFindByIdTest.java
 C:\Users\Bugrahan\Desktop\Java-Spring-React-TODO-App\todoapp\TodoAppRepositoryLib\src\test\java\org\bugrahan\todoapp\repository\TodoRepositoryFindByNameTest.java

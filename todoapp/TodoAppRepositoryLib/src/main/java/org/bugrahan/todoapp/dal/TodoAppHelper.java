@@ -7,6 +7,7 @@ import org.csystem.data.exception.repository.RepositoryException;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
 
@@ -138,6 +139,18 @@ public class TodoAppHelper {
         catch (Throwable ex) {
             log.error("TodoAppHelper.deleteAll: Exception -> {}, Message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
             throw new RepositoryException("TodoAppHelper.deleteAll:", ex);
+        }
+    }
+
+    public Iterable<Todo> findTodosByEndDate(LocalDate endDate)
+    {
+        try {
+            log.info("TodoAppHelper.findTodosByEndDate: endDate -> {}", endDate);
+            return m_todoRepository.findByEndDate(endDate);
+        }
+        catch (Throwable ex) {
+            log.error("TodoAppHelper.findTodosByEndDate: Exception -> {}, Message -> {}", ex.getClass().getSimpleName(), ex.getMessage());
+            throw new RepositoryException("TodoAppHelper.findTodosByEndDate:", ex);
         }
     }
 }

@@ -1,6 +1,7 @@
 package org.bugrahan.todoapp;
 
 import org.bugrahan.todoapp.constant.TestConstant;
+import org.bugrahan.todoapp.dto.TodoSaveDTO;
 import org.bugrahan.todoapp.entity.Todo;
 import org.bugrahan.todoapp.mapper.MapperInject;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @TestPropertySource(locations = TestConstant.UNITTEST_PROPS_FILE)
-public class TodoAppUpdateCityTest {
+public class TodoAppSaveCityTest {
     @Autowired
     private TodoAppDataService m_dataService;
 
@@ -30,9 +31,9 @@ public class TodoAppUpdateCityTest {
 
         var oldTodo = "Palhais";
 
-        var updateTodoDTO = m_mapperInject.getTodoMapper().toTodoUpdateDTO(todo);
+        var saveTodoDTO = m_mapperInject.getTodoMapper().todoSaveDTO(todo);
 
-        var updatedCity = m_dataService.updateTodo(updateTodoDTO);
+        var updatedCity = m_dataService.saveTodo(saveTodoDTO);
 
         assertEquals(name, updatedCity.getName());
     }

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -18,7 +20,7 @@ public class TodoRepositorySaveTest {
     @Test
     public void givenValue_whenCity_thenSetIdentity()
     {
-        var todo = new Todo(51, "Test Data", false);
+        var todo = new Todo(51, "Test Data", false, LocalDate.now());
         var expectedId = 51L;
 
         m_todoRepository.save(todo);

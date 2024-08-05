@@ -77,8 +77,8 @@ function App() {
       .catch(error => console.error('Error fetching not completed todos:', error));
   };
 
-  const addTodo = (task) => {
-    const newTodo = { name: task, completed: false };
+  const addTodo = (task, endDate) => {
+    const newTodo = { name: task, completed: false, endDate: endDate };
     fetch('http://localhost:6767/api/techcareer/todo/add', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -118,9 +118,9 @@ function App() {
     .catch(error => console.error('Error deleting todo:', error));
   };
 
-  const editTodo = (id, newTask) => {
+  const editTodo = (id, newTask, newEndDate) => {
     const updatedTodos = todos.map(todo =>
-      todo.id === id ? { ...todo, name: newTask } : todo
+      todo.id === id ? { ...todo, name: newTask, endDate: newEndDate } : todo
     );
     setTodos(sortTodosById(updatedTodos));
 

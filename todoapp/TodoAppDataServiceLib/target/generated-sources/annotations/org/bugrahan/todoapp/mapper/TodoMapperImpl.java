@@ -1,5 +1,6 @@
 package org.bugrahan.todoapp.mapper;
 
+import java.time.LocalDate;
 import javax.annotation.processing.Generated;
 import org.bugrahan.todoapp.dto.TodoDTO;
 import org.bugrahan.todoapp.dto.TodoSaveDTO;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-04T21:55:36+0300",
+    date = "2024-08-05T01:30:54+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -22,14 +23,16 @@ public class TodoMapperImpl implements ITodoMapper {
         }
 
         boolean isCompleted = false;
+        LocalDate endDate = null;
         long id = 0L;
         String name = null;
 
         isCompleted = saveDTO.isCompleted();
+        endDate = saveDTO.getEndDate();
         id = saveDTO.getId();
         name = saveDTO.getName();
 
-        Todo todo = new Todo( id, name, isCompleted );
+        Todo todo = new Todo( id, name, isCompleted, endDate );
 
         todo.setCompleted( saveDTO.isCompleted() );
 
@@ -43,14 +46,16 @@ public class TodoMapperImpl implements ITodoMapper {
         }
 
         boolean isCompleted = false;
+        LocalDate endDate = null;
         long id = 0L;
         String name = null;
 
         isCompleted = todo.isCompleted();
+        endDate = todo.getEndDate();
         id = todo.getId();
         name = todo.getName();
 
-        TodoSaveDTO todoSaveDTO = new TodoSaveDTO( id, name, isCompleted );
+        TodoSaveDTO todoSaveDTO = new TodoSaveDTO( id, name, isCompleted, endDate );
 
         todoSaveDTO.setCompleted( todo.isCompleted() );
 
@@ -64,14 +69,16 @@ public class TodoMapperImpl implements ITodoMapper {
         }
 
         boolean isCompleted = false;
+        LocalDate endDate = null;
         long id = 0L;
         String name = null;
 
         isCompleted = todoDTO.isCompleted();
+        endDate = todoDTO.getEndDate();
         id = todoDTO.getId();
         name = todoDTO.getName();
 
-        Todo todo = new Todo( id, name, isCompleted );
+        Todo todo = new Todo( id, name, isCompleted, endDate );
 
         todo.setCompleted( todoDTO.isCompleted() );
 
@@ -85,14 +92,16 @@ public class TodoMapperImpl implements ITodoMapper {
         }
 
         boolean isCompleted = false;
+        LocalDate endDate = null;
         long id = 0L;
         String name = null;
 
         isCompleted = todo.isCompleted();
+        endDate = todo.getEndDate();
         id = todo.getId();
         name = todo.getName();
 
-        TodoDTO todoDTO = new TodoDTO( id, name, isCompleted );
+        TodoDTO todoDTO = new TodoDTO( id, name, isCompleted, endDate );
 
         todoDTO.setCompleted( todo.isCompleted() );
 
@@ -106,14 +115,16 @@ public class TodoMapperImpl implements ITodoMapper {
         }
 
         boolean isCompleted = false;
+        LocalDate endDate = null;
         long id = 0L;
         String name = null;
 
         isCompleted = updateDTO.isCompleted();
+        endDate = updateDTO.getEndDate();
         id = updateDTO.getId();
         name = updateDTO.getName();
 
-        Todo todo = new Todo( id, name, isCompleted );
+        Todo todo = new Todo( id, name, isCompleted, endDate );
 
         todo.setCompleted( updateDTO.isCompleted() );
 
@@ -127,14 +138,16 @@ public class TodoMapperImpl implements ITodoMapper {
         }
 
         boolean isCompleted = false;
+        LocalDate endDate = null;
         long id = 0L;
         String name = null;
 
         isCompleted = todo.isCompleted();
+        endDate = todo.getEndDate();
         id = todo.getId();
         name = todo.getName();
 
-        TodoUpdateDTO todoUpdateDTO = new TodoUpdateDTO( id, name, isCompleted );
+        TodoUpdateDTO todoUpdateDTO = new TodoUpdateDTO( id, name, isCompleted, endDate );
 
         todoUpdateDTO.setCompleted( todo.isCompleted() );
 

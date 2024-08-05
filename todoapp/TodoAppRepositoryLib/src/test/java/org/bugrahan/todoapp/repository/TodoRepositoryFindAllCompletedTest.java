@@ -11,18 +11,17 @@ import java.util.stream.StreamSupport;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@SpringBootApplication
 @SpringBootTest
 @TestPropertySource(locations = TestConstant.UNITTEST_PROPS_FILE)
-public class TodoRepositoryFindAllTest {
+public class TodoRepositoryFindAllCompletedTest {
     @Autowired
     private ITodoRepository m_todoRepository;
 
     @Test
     public void test()
     {
-        var expectedCount = 50L;
-        var count = StreamSupport.stream(m_todoRepository.findAll().spliterator(), false).count();
+        var expectedCount = 11L;
+        var count = StreamSupport.stream(m_todoRepository.findAllCompleted().spliterator(), false).count();
 
         assertEquals(expectedCount, count);
     }

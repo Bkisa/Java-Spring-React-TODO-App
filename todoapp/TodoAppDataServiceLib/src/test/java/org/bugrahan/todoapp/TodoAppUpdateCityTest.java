@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 
+import java.time.LocalDate;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
@@ -24,7 +26,7 @@ public class TodoAppUpdateCityTest {
     {
         var name = "TodoApp test";
         var id = 6L;
-        var todo = new Todo(id, name, false);
+        var todo = new Todo(id, name, false, LocalDate.of(2025, 8, 18));
 
         var oldTodo = "Palhais";
 

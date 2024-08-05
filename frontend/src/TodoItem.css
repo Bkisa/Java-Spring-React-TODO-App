@@ -1,0 +1,184 @@
+.todo-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    background-color: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 5px;
+  }
+  
+  .todo-item.completed .todo-text {
+    text-decoration: line-through;
+    color: red;
+  }
+  
+  .todo-item input[type="checkbox"] {
+    margin-right: 10px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .todo-text {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
+  
+  .todo-text span:first-child {
+    margin-right: 20px; /* İsim ve tarih arasındaki boşluk */
+    flex-grow: 1; /* İsmi sola yaslamak için */
+    text-align: left; /* İsmin sola yaslanması için */
+  }
+  
+  .todo-text .todo-date {
+    margin-right: 100px; /* Tarih ile isim arasındaki boşluğu artırmak için */
+    font-size: 1em; /* Tarih font boyutunu biraz yükseltmek için */
+  }
+  
+  .todo-item button {
+    padding: 0px 0px;
+    font-size: 14px;
+    margin-right: 5px;
+    background-color: #ffc107;
+    color: white;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    width: 20px; /* Butonun genişliğini azaltmak için */
+    height: 20px; /* Butonun yüksekliğini azaltmak için */
+  }
+  
+  .todo-item button:hover {
+    background-color: #e0a800;
+  }
+  
+  .todo-item button.delete {
+    background-color: white;
+    border: 1px solid #dc3545;
+    width: 30px; /* Butonun genişliğini azaltmak için */
+    height: 30px; /* Butonun yüksekliğini azaltmak için */
+  }
+  
+  .todo-item button.delete:hover {
+    background-color: #f8d7da;
+  }
+  
+  .clear-buttons {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .icon-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+  .icon-button img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .icon-button.delete img {
+    filter: none;
+  }
+  
+  .icon-button.edit img {
+    filter: invert(69%) sepia(20%) saturate(733%) hue-rotate(336deg) brightness(95%) contrast(92%);
+  }
+  
+  .icon-button.checkbox img {
+    filter: invert(38%) sepia(79%) saturate(1783%) hue-rotate(90deg) brightness(91%) contrast(96%);
+  }
+  
+  .popup {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .popup-inner {
+    position: relative;
+    padding: 30px;
+    width: 500px;
+    background: white;
+    border-radius: 10px;
+    text-align: center;
+  }
+  
+  .popup-inner input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .popup-inner button {
+    padding: 20px 50px;
+    margin: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the text horizontally */
+    text-align: center; /* Center the text horizontally */
+  }
+  
+  .popup-inner button:nth-child(3) {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .popup-inner button:nth-child(4) {
+    background-color: #dc3545;
+    color: white;
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .pagination button {
+    padding: 10px 15px;
+    margin: 0 5px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .pagination button:hover {
+    background-color: #0056b3;
+  }
+  
+  .todo-date {
+    color: gray;
+    font-size: 1em;
+  }
+  

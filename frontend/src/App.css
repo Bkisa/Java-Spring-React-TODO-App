@@ -1,3 +1,4 @@
+/* App.css */
 .App {
   text-align: center;
   font-family: Arial, sans-serif;
@@ -12,16 +13,19 @@ form {
   background-color: #f9f9f9;
   width: 50%;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-form input[type="text"] {
+form input[type="text"],
+form input[type="date"] {
   padding: 10px;
   width: 80%;
   font-size: 16px;
   border: 1px solid #ccc;
   border-radius: 5px;
-  display: block;
-  margin: 0 auto 10px auto;
+  margin-bottom: 10px;
 }
 
 form button {
@@ -32,8 +36,7 @@ form button {
   color: white;
   border-radius: 5px;
   cursor: pointer;
-  display: block;
-  margin: 0 auto;
+  margin-top: 10px;
 }
 
 form button:hover {
@@ -88,13 +91,7 @@ form button:hover {
   border-radius: 5px;
 }
 
-.todo-item span {
-  flex-grow: 1;
-  text-align: left;
-  margin-left: 10px;
-}
-
-.todo-item.completed span {
+.todo-item.completed .todo-text {
   text-decoration: line-through;
   color: red;
 }
@@ -105,14 +102,34 @@ form button:hover {
   height: 20px;
 }
 
+.todo-text {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.todo-text span:first-child {
+  margin-right: 20px; /* Space between name and date */
+  flex-grow: 1; /* Align name to the left */
+  text-align: left; /* Align name to the left */
+}
+
+.todo-text .todo-date {
+  margin-right: 100px; /* Increase space between date and name */
+  font-size: 1em; /* Slightly increase the font size of the date */
+}
+
 .todo-item button {
-  padding: 5px 10px;
+  padding: 0;
   font-size: 14px;
+  margin-right: 5px;
   background-color: #ffc107;
   color: white;
   border-radius: 5px;
   border: none;
   cursor: pointer;
+  width: 20px; /* Decrease the button width */
+  height: 20px; /* Decrease the button height */
 }
 
 .todo-item button:hover {
@@ -122,6 +139,8 @@ form button:hover {
 .todo-item button.delete {
   background-color: white;
   border: 1px solid #dc3545;
+  width: 30px; /* Decrease the button width */
+  height: 30px; /* Decrease the button height */
 }
 
 .todo-item button.delete:hover {
@@ -157,6 +176,9 @@ form button:hover {
   filter: invert(38%) sepia(79%) saturate(1783%) hue-rotate(90deg) brightness(91%) contrast(96%);
 }
 
+/* Popup Styles */
+
+/* Ensure the popup covers the entire screen */
 .popup {
   position: fixed;
   width: 100%;
@@ -169,46 +191,70 @@ form button:hover {
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 1000; /* Ensure the popup is above other elements */
+  pointer-events: all; /* Allow interactions with the popup */
 }
 
 .popup-inner {
   position: relative;
-  padding: 20px;
-  width: 300px;
+  padding: 30px;
+  width: 60%; /* Increase the width as needed, or set a specific width in pixels */
+  max-width: 700px; /* Set a maximum width if required */
   background: white;
   border-radius: 10px;
   text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* Optional: adds shadow for better visibility */
 }
 
-.popup-inner input {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+.popup-inner input[type="text"],
+.popup-inner input[type="date"] {
+  width: 90%; /* Adjust the width percentage as necessary */
+  padding: 15px;
+  margin-bottom: 20px; /* Increase space between inputs */
   border: 1px solid #ccc;
   border-radius: 5px;
-  box-sizing: border-box;
+  font-size: 16px;
 }
 
-.popup-inner button {
-  padding: 10px 20px;
-  margin: 5px;
-  font-size: 16px;
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.button-container button {
+  flex: 1;
+  margin: 0 5px;
+  padding: 15px 0; /* Increase button height */
+  font-size: 18px; /* Increase button font size */
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center; /* Center the text horizontally */
 }
 
-.popup-inner button:nth-child(3) {
-  background-color: #28a745;
+/* Update button colors and hover effects */
+.button-container .save-button {
+  background-color: #007bff; /* Change to a blue color */
   color: white;
 }
 
-.popup-inner button:nth-child(4) {
-  background-color: #dc3545;
+.button-container .save-button:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+}
+
+.button-container .cancel-button {
+  background-color: #6c757d; /* Change to a gray color */
   color: white;
 }
 
-/* Sayfalama düğmeleri */
+.button-container .cancel-button:hover {
+  background-color: #5a6268; /* Darker gray on hover */
+}
+
 .pagination-container {
   display: flex;
   justify-content: center;
@@ -235,4 +281,26 @@ form button:hover {
 
 .pagination button:hover {
   background-color: #0056b3;
+}
+
+.todo-date {
+  color: gray;
+  font-size: 1em;
+}
+
+/* Customize react-datepicker CSS */
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  width: 70%;
+}
+
+.react-datepicker__input-container input {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  display: block;
+  margin: 0 auto 10px auto;
+  text-align: center;
 }

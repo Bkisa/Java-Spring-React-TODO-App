@@ -3,6 +3,8 @@ package org.bugrahan.todoapp.entity;
 import lombok.*;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDate;
+
 @AllArgsConstructor
 @Getter
 @Setter
@@ -17,4 +19,7 @@ public class Todo {
 
     @Accessors(prefix = "m_")
     private boolean m_isCompleted;
+
+    @Accessors(prefix = "m_")
+    private LocalDate m_endDate;
 }

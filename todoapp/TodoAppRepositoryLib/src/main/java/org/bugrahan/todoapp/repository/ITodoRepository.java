@@ -3,6 +3,9 @@ package org.bugrahan.todoapp.repository;
 import org.bugrahan.todoapp.entity.Todo;
 import org.csystem.data.exception.repository.ICrudRepository;
 
+import java.time.LocalDate;
+import java.util.List;
+
 public interface ITodoRepository extends ICrudRepository<Todo, Long> {
     Iterable<Todo> findByName(String name);
 
@@ -15,4 +18,6 @@ public interface ITodoRepository extends ICrudRepository<Todo, Long> {
     public void deleteCompletedTodos();
 
     public void deleteAllTodos();
+
+    List<Todo> findByEndDate(LocalDate endDate);
 }

@@ -1,47 +1,45 @@
 import React, { useState } from 'react';
+import Popup from './Popup';
 import editIcon from '../icons/edit.svg';
 import deleteIcon from '../icons/delete.svg';
-import Popup from './Popup';
+import '../TodoItem.css';  // CSS dosyasını buraya ekleyin
 
 function TodoItem({ todo, toggleComplete, deleteTodo, editTodo }) {
-  const [showPopup, setShowPopup] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const handleEditClick = () => {
-    setShowPopup(true);
-  };
-
-  const handleClosePopup = () => {
-    setShowPopup(false);
-  };
-
-  const handleSavePopup = (updatedTodo) => {
-    editTodo(updatedTodo.id, updatedTodo.name);
-    setShowPopup(false);
+  const handleEdit = (newTask, newEndDate) => {
+    editTodo(todo.id, newTask, newEndDate);
+    setIsEditing(false);
   };
 
   return (
-    <div className={`todo-item ${todo.completed ? 'completed' : ''}`}>
+    <li className={`todo-item ${todo.completed ? 'completed' : ''}`}>
       <input
         type="checkbox"
         checked={todo.completed}
         onChange={() => toggleComplete(todo.id)}
-        className="checkbox"
       />
-      <span className="todo-name">{todo.name}</span>
-      <button className="icon-button edit" onClick={handleEditClick}>
-        <img src={editIcon} alt="Edit" />
-      </button>
-      <button className="icon-button delete" onClick={() => deleteTodo(todo.id)}>
-        <img src={deleteIcon} alt="Delete" />
-      </button>
-      {showPopup && 
-        <Popup 
-          todo={todo} 
-          onClose={handleClosePopup} 
-          onSave={handleSavePopup} 
+      <div className="todo-text">
+        <span>{todo.name}</span>
+        <span className="todo-date">{todo.endDate}</span>
+      </div>
+      <div>
+        <button className="icon-button edit" onClick={() => setIsEditing(true)}>
+          <img src={editIcon} alt="Edit" />
+        </button>
+        <button className="icon-button delete" onClick={() => deleteTodo(todo.id)}>
+          <img src={deleteIcon} alt="Delete" />
+        </button>
+      </div>
+      {isEditing && (
+        <Popup
+          task={todo.name}
+          endDate={todo.endDate}
+          onClose={() => setIsEditing(false)}
+          onSave={handleEdit}
         />
-      }
-    </div>
+      )}
+    </li>
   );
 }
 

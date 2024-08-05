@@ -13,6 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+
 @RestController
 @RequestMapping("/api/techcareer/todo")
 @Slf4j
@@ -214,12 +218,39 @@ public class TodoController {
         try {
             log.info("TodoController.deleteCompletedAll");
             m_todoAppDataService.deleteCompletedAll();
-            returnValue = ResponseEntity.ok("Delete All Todos successfully");
+            returnValue = ResponseEntity.ok("Delete All Completed Todos successfully");
         }
         catch (DataServiceException ex) {
             var todoError = new BaseTodoError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
 
             log.error("TodoController.deleteCompletedAll -> Exception: {}, Response {}", ex.getMessage(), todoError);
+
+            returnValue = ResponseEntity.internalServerError().body(todoError);
+        }
+        return returnValue;
+    }
+
+    @GetMapping("find/byEndDate")
+    public ResponseEntity<Object> findByEndDate(@RequestParam String endDate)
+    {
+        ResponseEntity<Object> returnValue;
+
+        try {
+            LocalDate date = LocalDate.parse(endDate, DateTimeFormatter.ISO_DATE);
+            log.info("TodoController.findByEndDate -> endDate: {}", endDate);
+
+            returnValue = ResponseEntity.ok(m_todoAppDataService.findTodosByEndDate(date));
+        }
+        catch (DateTimeParseException ex) {
+            var todoError = new BaseTodoError("Invalid date format", HttpStatus.BAD_REQUEST.value());
+            log.error("TodoController.findByEndDate -> Exception: {}, Response {}", ex.getMessage(), todoError);
+
+            returnValue = ResponseEntity.badRequest().body(todoError);
+        }
+        catch (DataServiceException ex) {
+            var todoError = new BaseTodoError(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), HttpStatus.INTERNAL_SERVER_ERROR.value());
+
+            log.error("TodoController.findByEndDate -> Exception: {}, Response {}", ex.getMessage(), todoError);
 
             returnValue = ResponseEntity.internalServerError().body(todoError);
         }

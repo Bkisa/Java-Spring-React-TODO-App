@@ -1,23 +1,32 @@
 import React, { useState } from 'react';
+import '../App.css'; // Popup stilinin de burada olduğunu varsayarak App.css'i import ediyoruz
 
-function Popup({ todo, onClose, onSave }) {
-  const [newName, setNewName] = useState(todo.name);
+function Popup({ task, endDate, onSave, onClose }) {
+  const [newTask, setNewTask] = useState(task);
+  const [newEndDate, setNewEndDate] = useState(endDate);
 
   const handleSave = () => {
-    onSave({ ...todo, name: newName });
+    onSave(newTask, newEndDate);
+    onClose();
   };
 
   return (
     <div className="popup">
       <div className="popup-inner">
-        <h2>Edit Todo</h2>
-        <input 
-          type="text" 
-          value={newName} 
-          onChange={(e) => setNewName(e.target.value)} 
+        <input
+          type="text"
+          value={newTask}
+          onChange={(e) => setNewTask(e.target.value)}
         />
-        <button onClick={handleSave}>OK</button>
-        <button onClick={onClose}>Cancel</button>
+        <input
+          type="date"
+          value={newEndDate}
+          onChange={(e) => setNewEndDate(e.target.value)}
+        />
+        <div className="button-container">
+          <button className="save-button" onClick={handleSave}>Save</button>
+          <button className="cancel-button" onClick={onClose}>Cancel</button>
+        </div>
       </div>
     </div>
   );

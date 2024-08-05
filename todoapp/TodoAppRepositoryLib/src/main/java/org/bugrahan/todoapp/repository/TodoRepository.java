@@ -8,8 +8,10 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,12 +22,13 @@ public class TodoRepository implements ITodoRepository {
     private static final String FIND_ALL_SQL = "select * from find_all_todos()";
     private static final String FIND_BY_ID_SQL = "select * from find_todo_by_id(:id)";
     private static final String FIND_BY_NAME_SQL = "select * from find_todo_by_name(:name)";
-    private static final String SAVE_SQL = "select * from insert_todo(:name, :completed)";
-    private static final String UPDATE_SQL = "call sp_update_todo(:id, :name, :completed)";
-    private static final String FIND_ALL_COMPLETED_SQL = "select * from todos where completed = true"; // Yeni SQL
-    private static final String FIND_ALL_NOT_COMPLETED_SQL = "select * from todos where completed = false"; // Yeni SQL
+    private static final String SAVE_SQL = "select * from insert_todo(:name, :completed, :endDate)";
+    private static final String UPDATE_SQL = "call sp_update_todo(:id, :name, :completed, :endDate)";
+    private static final String FIND_ALL_COMPLETED_SQL = "select todo_id as id, name as todo_name, completed as todo_completed, end_date as todo_end_date from todos where completed = true";
+    private static final String FIND_ALL_NOT_COMPLETED_SQL = "select todo_id as id, name as todo_name, completed as todo_completed, end_date as todo_end_date from todos where completed = false";
     private static final String DELETE_COMPLETED_SQL = "call sp_delete_completed_todos()";
     private static final String DELETE_ALL_SQL = "call sp_delete_all()";
+    private static final String FIND_BY_END_DATE_SQL = "select * from find_todo_by_end_date(:endDate)";
 
     private final NamedParameterJdbcTemplate m_namedParameterJdbcTemplate;
 
@@ -37,7 +40,12 @@ public class TodoRepository implements ITodoRepository {
     private void fillTodos(ArrayList<Todo> todos, ResultSet rs) throws SQLException
     {
         do {
-            todos.add(new Todo(rs.getLong(1), rs.getString(2), rs.getBoolean(3)));
+            todos.add(new Todo(
+                    rs.getLong("id"),
+                    rs.getString("todo_name"),
+                    rs.getBoolean("todo_completed"),
+                    rs.getObject("todo_end_date", LocalDate.class)
+            ));
         } while (rs.next());
     }
 
@@ -98,6 +106,7 @@ public class TodoRepository implements ITodoRepository {
 
         paramMap.put("name", todo.getName());
         paramMap.put("completed", todo.isCompleted());
+        paramMap.put("endDate", todo.getEndDate());
         m_namedParameterJdbcTemplate.query(SAVE_SQL, paramMap, (ResultSet rs) -> todo.setId(rs.getLong(1)));
 
         return todo;
@@ -112,13 +121,14 @@ public class TodoRepository implements ITodoRepository {
         paramMap.put("id", todo.getId());
         paramMap.put("name", todo.getName());
         paramMap.put("completed", todo.isCompleted());
+        paramMap.put("endDate", todo.getEndDate());
         m_namedParameterJdbcTemplate.update(UPDATE_SQL, paramMap);
 
         return todo;
     }
 
     @Override
-    public Iterable<Todo> findAllCompleted() // Yeni yöntem
+    public Iterable<Todo> findAllCompleted()
     {
         log.info("TodoRepository.findAllCompleted");
         var todos = new ArrayList<Todo>();
@@ -128,7 +138,7 @@ public class TodoRepository implements ITodoRepository {
     }
 
     @Override
-    public Iterable<Todo> findAllNotCompleted() // Yeni yöntem
+    public Iterable<Todo> findAllNotCompleted()
     {
         log.info("TodoRepository.findAllNotCompleted");
         var todos = new ArrayList<Todo>();
@@ -151,7 +161,20 @@ public class TodoRepository implements ITodoRepository {
         m_namedParameterJdbcTemplate.update(DELETE_ALL_SQL, new HashMap<>());
     }
 
-    //////////////////////////////////////////////////////////////////
+    @Override
+    public List<Todo> findByEndDate(LocalDate endDate)
+    {
+        log.info("TodoRepository.findByEndDate: -> endDate:{}", endDate);
+        var todos = new ArrayList<Todo>();
+        var paramMap = new HashMap<String, Object>();
+
+        paramMap.put("endDate", endDate);
+
+        m_namedParameterJdbcTemplate.query(FIND_BY_END_DATE_SQL, paramMap, (ResultSet rs) -> {fillTodos(todos, rs);});
+
+        return todos;
+    }
+
     @Override
     public long count()
     {
