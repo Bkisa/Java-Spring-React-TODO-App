@@ -10,7 +10,7 @@ This project is a TODO application built using Java Spring Boot and React. Users
 - [Usage](#usage)
 - [Project Structure](#project-structure)
 - [API Endpoints](#api-endpoints)
-
+- [Swagger Documentation](#swagger-documentation)
 
 ## Features
 
@@ -129,3 +129,76 @@ frontend
 - DELETE /api/techcareer/todo/deleteCompletedAll - Deletes all completed tasks.
 
 - DELETE /api/techcareer/todo/deleteAll - Deletes all tasks.
+
+
+## Swagger Documentation
+
+The TODO application includes Swagger for API documentation and testing. Swagger provides a user-friendly interface to interact with the API endpoints.
+
+### Accessing Swagger UI
+
+```
+http://localhost:6767/swagger-ui.html
+```
+
+
+### Using Swagger UI
+
+1. Open your browser and navigate to `http://localhost:6767/swagger-ui.html`.
+2. Use the "Authorize" button to provide your credentials for authenticated endpoints.
+```
+   username: admin
+   password: root
+```
+3. Explore and test the API endpoints directly from the Swagger UI interface.
+
+### Swagger Configuration
+
+Swagger is configured in the project using the `SwaggerConfig` class. The configuration ensures that all API endpoints are documented and accessible through the Swagger UI.
+
+```java
+package org.bugrahan.todoapp.config;
+
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Contact;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.info.License;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+@Configuration
+public class SwaggerConfig {
+
+    @Bean
+    public OpenAPI customOpenAPI() {
+        return new OpenAPI()
+                .addSecurityItem(new SecurityRequirement().addList("basicAuth"))
+                .components(new io.swagger.v3.oas.models.Components()
+                        .addSecuritySchemes("basicAuth",
+                                new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("basic")))
+                .info(new Info()
+                        .title("TodoApp API")
+                        .version("1.0.0")
+                        .description("Todo Application API documentation")
+                        .termsOfService("Terms of service")
+                        .contact(new Contact()
+                                .name("Bugrahan")
+                                .email("bugrahan@example.com")
+                                .url("https://example.com"))
+                        .license(new License()
+                                .name("Apache 2.0")
+                                .url("http://springdoc.org")));
+    }
+}
+```
+
+### Requirements for Swagger
+```
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+    <version>2.0.3</version>
+</dependency>
+```
