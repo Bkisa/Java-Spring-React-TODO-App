@@ -32,9 +32,11 @@
     border: 1px solid #ccc;
     border-radius: 5px;
     font-size: 18px; /* Giriş alanı yazı boyutunu artır */
+    box-sizing: border-box; /* Giriş alanlarının genişliğini ayarlamak için */
   }
   
   .login-form button {
+    width: 100%; /* Buton genişliğini %100 yap */
     padding: 15px 20px; /* Buton paddingini artır */
     font-size: 18px; /* Buton yazı boyutunu artır */
     border: none;

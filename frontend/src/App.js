@@ -12,6 +12,13 @@ function App() {
   const todosPerPage = 8; // Her sayfada 8 todo göstermek için
 
   useEffect(() => {
+    const auth = localStorage.getItem('auth');
+    if (auth) {
+      setAuthenticated(true);
+    }
+  }, []);
+
+  useEffect(() => {
     if (authenticated) {
       fetchAllTodos();
     }
