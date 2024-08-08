@@ -1,4 +1,4 @@
-package org.bugrahan.todoapp.webconfig;
+package org.bugrahan.todoapp.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
