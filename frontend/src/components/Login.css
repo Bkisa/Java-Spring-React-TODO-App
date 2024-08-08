@@ -1,0 +1,50 @@
+/* Login.css */
+
+.login-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f5f5f5;
+  }
+  
+  h2 {
+    font-size: 2.5em; /* Başlık boyutunu büyüt */
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    background-color: #fff;
+    padding: 40px; /* Form paddingini artır */
+    border-radius: 10px; /* Köşeleri daha yuvarlak yap */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2); /* Gölgeyi artır */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 300px; /* Form genişliğini artır */
+  }
+  
+  .login-form input {
+    width: 100%;
+    padding: 15px; /* Giriş alanı paddingini artır */
+    margin-bottom: 15px; /* Giriş alanları arasındaki boşluğu artır */
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 18px; /* Giriş alanı yazı boyutunu artır */
+  }
+  
+  .login-form button {
+    padding: 15px 20px; /* Buton paddingini artır */
+    font-size: 18px; /* Buton yazı boyutunu artır */
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .login-form button:hover {
+    background-color: #0056b3;
+  }
+  

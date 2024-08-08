@@ -1,24 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import TodoInput from './components/TodoInput';
 import TodoList from './components/TodoList';
+import Login from './components/Login';
 import './App.css';
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [authenticated, setAuthenticated] = useState(false);
   const todosPerPage = 8; // Her sayfada 8 todo göstermek için
 
   useEffect(() => {
-    fetchAllTodos();
-  }, []);
+    if (authenticated) {
+      fetchAllTodos();
+    }
+  }, [authenticated]);
 
   const sortTodosById = (todos) => {
     return todos.sort((a, b) => a.id - b.id);
   };
 
   const fetchAllTodos = () => {
-    fetch('http://localhost:6767/api/techcareer/todo/find/all')
+    fetch('http://localhost:6767/api/techcareer/todo/find/all', {
+      headers: {
+        'Authorization': localStorage.getItem('auth')
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -38,7 +46,11 @@ function App() {
   };
 
   const fetchCompletedTodos = () => {
-    fetch('http://localhost:6767/api/techcareer/todo/find/completed')
+    fetch('http://localhost:6767/api/techcareer/todo/find/completed', {
+      headers: {
+        'Authorization': localStorage.getItem('auth')
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -58,7 +70,11 @@ function App() {
   };
 
   const fetchNotCompletedTodos = () => {
-    fetch('http://localhost:6767/api/techcareer/todo/find/notcompleted')
+    fetch('http://localhost:6767/api/techcareer/todo/find/notcompleted', {
+      headers: {
+        'Authorization': localStorage.getItem('auth')
+      }
+    })
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok');
@@ -81,7 +97,10 @@ function App() {
     const newTodo = { name: task, completed: false, endDate: endDate };
     fetch('http://localhost:6767/api/techcareer/todo/add', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('auth')
+      },
       body: JSON.stringify(newTodo)
     })
     .then(response => response.json())
@@ -98,7 +117,10 @@ function App() {
     const updatedTodo = updatedTodos.find(todo => todo.id === id);
     fetch(`http://localhost:6767/api/techcareer/todo/update`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('auth')
+      },
       body: JSON.stringify(updatedTodo)
     })
     .catch(error => console.error('Error updating todo:', error));
@@ -106,7 +128,10 @@ function App() {
 
   const deleteTodo = (id) => {
     fetch(`http://localhost:6767/api/techcareer/todo/delete/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: { 
+        'Authorization': localStorage.getItem('auth')
+      }
     })
     .then(response => {
       if (response.ok) {
@@ -127,7 +152,10 @@ function App() {
     const updatedTodo = updatedTodos.find(todo => todo.id === id);
     fetch(`http://localhost:6767/api/techcareer/todo/update`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': localStorage.getItem('auth')
+      },
       body: JSON.stringify(updatedTodo)
     })
     .catch(error => console.error('Error updating todo:', error));
@@ -135,7 +163,10 @@ function App() {
 
   const deleteDoneTasks = () => {
     fetch('http://localhost:6767/api/techcareer/todo/deleteCompletedAll', {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: { 
+        'Authorization': localStorage.getItem('auth')
+      }
     })
     .then(response => {
       if (response.ok) {
@@ -149,7 +180,10 @@ function App() {
 
   const deleteAllTasks = () => {
     fetch('http://localhost:6767/api/techcareer/todo/deleteAll', {
-      method: 'DELETE'
+      method: 'DELETE',
+      headers: { 
+        'Authorization': localStorage.getItem('auth')
+      }
     })
     .then(response => {
       if (response.ok) {
@@ -176,6 +210,10 @@ function App() {
 
   const nextPage = () => setCurrentPage(prevPage => Math.min(prevPage + 1, Math.ceil(filteredTodos.length / todosPerPage)));
   const prevPage = () => setCurrentPage(prevPage => Math.max(prevPage - 1, 1));
+
+  if (!authenticated) {
+    return <Login setAuthenticated={setAuthenticated} />;
+  }
 
   return (
     <div className="App">
