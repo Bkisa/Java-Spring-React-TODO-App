@@ -1,9 +1,10 @@
-org\bugrahan\todoapp\TodoAppFindTodoByNameTest.class
 org\bugrahan\todoapp\TodoAppUpdateCityTest.class
+org\bugrahan\todoapp\configuration\TestConfig.class
+org\bugrahan\todoapp\TodoAppFindTodoByNameTest.class
 org\bugrahan\todoapp\TodoAppDataServiceDeleteByIdTest.class
 org\bugrahan\todoapp\TodoAppFindAllCompletedTest.class
 org\bugrahan\todoapp\TodoAppFindTodoByIdTest.class
-org\bugrahan\todoapp\configuration\TestConfig.class
 org\bugrahan\todoapp\TodoAppFindAllTodosTest.class
+org\bugrahan\todoapp\TodoAppSaveCityTest.class
 org\bugrahan\todoapp\TodoAppFindAllNotCompletedTest.class
 org\bugrahan\todoapp\constant\TestConstant.class

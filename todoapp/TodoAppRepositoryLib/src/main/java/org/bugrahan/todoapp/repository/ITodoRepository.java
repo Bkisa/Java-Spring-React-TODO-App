@@ -15,9 +15,9 @@ public interface ITodoRepository extends ICrudRepository<Todo, Long> {
 
     Iterable<Todo> findAllNotCompleted();
 
-    public void deleteCompletedTodos();
+    void deleteCompletedTodos();
 
-    public void deleteAllTodos();
+    void deleteAllTodos();
 
     List<Todo> findByEndDate(LocalDate endDate);
 }

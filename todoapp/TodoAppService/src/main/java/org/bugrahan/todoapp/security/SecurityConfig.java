@@ -1,5 +1,6 @@
 package org.bugrahan.todoapp.security;
 
+import org.bugrahan.todoapp.entity.UserProfiles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.Customizer;
@@ -30,7 +31,7 @@ public class SecurityConfig {
     public InMemoryUserDetailsManager inMemoryUserDetailsManager(PasswordEncoder passwordEncoder) {
         UserDetails admin = User.withUsername("admin")
                 .password(passwordEncoder.encode("root"))
-                .roles("ADMIN")
+                .roles(String.valueOf(UserProfiles.ADMIN))
                 .build();
 
         return new InMemoryUserDetailsManager(admin);

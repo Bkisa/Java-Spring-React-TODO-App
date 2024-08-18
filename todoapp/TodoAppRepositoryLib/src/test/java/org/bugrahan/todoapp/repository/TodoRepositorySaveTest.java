@@ -2,6 +2,7 @@ package org.bugrahan.todoapp.repository;
 
 import org.bugrahan.todoapp.constant.TestConstant;
 import org.bugrahan.todoapp.entity.Todo;
+import org.bugrahan.todoapp.entity.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,7 +21,8 @@ public class TodoRepositorySaveTest {
     @Test
     public void givenValue_whenCity_thenSetIdentity()
     {
-        var todo = new Todo(51, "Test Data", false, LocalDate.now());
+        var newUser = new User();
+        var todo = new Todo(51, "Test Data", false, LocalDate.now(), newUser);
         var expectedId = 51L;
 
         m_todoRepository.save(todo);

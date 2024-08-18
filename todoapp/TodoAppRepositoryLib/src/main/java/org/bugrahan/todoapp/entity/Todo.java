@@ -6,6 +6,7 @@ import lombok.experimental.Accessors;
 import java.time.LocalDate;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode(exclude = "m_name")
@@ -22,4 +23,7 @@ public class Todo {
 
     @Accessors(prefix = "m_")
     private LocalDate m_endDate;
+
+    @Accessors(prefix = "m_")
+    private User m_user;
 }

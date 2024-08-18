@@ -3,6 +3,7 @@ package org.bugrahan.todoapp;
 import org.bugrahan.todoapp.constant.TestConstant;
 import org.bugrahan.todoapp.dto.TodoSaveDTO;
 import org.bugrahan.todoapp.entity.Todo;
+import org.bugrahan.todoapp.entity.User;
 import org.bugrahan.todoapp.mapper.MapperInject;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,9 +26,10 @@ public class TodoAppSaveCityTest {
     @Test
     public void givenValue_whenId_thenFound()
     {
+        var newUser = new User();
         var name = "TodoApp test";
         var id = 6L;
-        var todo = new Todo(id, name, false, LocalDate.of(2025, 8, 18));
+        var todo = new Todo(id, name, false, LocalDate.of(2025, 8, 18), newUser);
 
         var oldTodo = "Palhais";
 

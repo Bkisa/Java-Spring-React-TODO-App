@@ -6,11 +6,12 @@ import org.bugrahan.todoapp.dto.TodoDTO;
 import org.bugrahan.todoapp.dto.TodoSaveDTO;
 import org.bugrahan.todoapp.dto.TodoUpdateDTO;
 import org.bugrahan.todoapp.entity.Todo;
+import org.bugrahan.todoapp.entity.User;
 import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2024-08-05T01:30:54+0300",
+    date = "2024-08-19T00:45:15+0300",
     comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.1 (Oracle Corporation)"
 )
 @Component
@@ -32,7 +33,9 @@ public class TodoMapperImpl implements ITodoMapper {
         id = saveDTO.getId();
         name = saveDTO.getName();
 
-        Todo todo = new Todo( id, name, isCompleted, endDate );
+        User user = null;
+
+        Todo todo = new Todo( id, name, isCompleted, endDate, user );
 
         todo.setCompleted( saveDTO.isCompleted() );
 
@@ -78,7 +81,9 @@ public class TodoMapperImpl implements ITodoMapper {
         id = todoDTO.getId();
         name = todoDTO.getName();
 
-        Todo todo = new Todo( id, name, isCompleted, endDate );
+        User user = null;
+
+        Todo todo = new Todo( id, name, isCompleted, endDate, user );
 
         todo.setCompleted( todoDTO.isCompleted() );
 
@@ -124,7 +129,9 @@ public class TodoMapperImpl implements ITodoMapper {
         id = updateDTO.getId();
         name = updateDTO.getName();
 
-        Todo todo = new Todo( id, name, isCompleted, endDate );
+        User user = null;
+
+        Todo todo = new Todo( id, name, isCompleted, endDate, user );
 
         todo.setCompleted( updateDTO.isCompleted() );
 
